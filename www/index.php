@@ -8,5 +8,5 @@ include('config.php');
 //$dbObject = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 
 // Connect the core site
-include(SITE_PATH . 'core' . DS . 'core.php');
+include(SITE_PATH . DS . 'core' . DS . 'core.php');
 

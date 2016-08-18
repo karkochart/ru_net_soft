@@ -3,11 +3,11 @@
 // Загрузка классов "на лету"
 function __autoload($className)
 {
+    $filename = strtolower($className) . '.php';
+
     // определяем класс и находим для него путь
     preg_match_all('/((?:^|[A-Z])[a-z]+)/', $className, $matches);
     $expArr = $matches[0];
-    $expArr[0] = strtolower($expArr[0]);
-    $filename = implode($expArr) . '.php';
 
     $folder = 'application';
     if (!empty($expArr[0] && $expArr[0] == 'base')) {

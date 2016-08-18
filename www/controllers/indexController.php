@@ -10,9 +10,7 @@ class indexController extends baseController
 
     public function index()
     {
-        $this->load->model('posts');
-        $vars['title'] = 'Empty project';
-        $vars['posts'] = $this->posts->getEntries();
+        $vars['title'] = 'Rus net soft project';
         $this->load->view('index', $vars);
     }
 }
