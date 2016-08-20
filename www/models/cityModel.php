@@ -1,7 +1,6 @@
 <?php
 
-
-class CityModel extends Basemodel
+class cityModel extends baseModel
 {
     private $id;
     private $name;
@@ -45,5 +44,14 @@ class CityModel extends Basemodel
     {
         $this->name = $name;
     }
+
+    public function __toString()
+    {
+        return "{"
+        . "\"id\" : \"$this->id\","
+        . "\"name\" : \"$this->name\""
+        . "}";
+    }
+
 
 }

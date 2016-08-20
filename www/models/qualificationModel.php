@@ -1,6 +1,6 @@
 <?php
 
-	class QualificationModel extends baseModel{
+	class qualificationModel extends baseModel{
 
 		private $id;
 		private $name;
@@ -44,6 +44,14 @@
 		public function setName($name)
 		{
 			$this->name = $name;
+		}
+
+		public function __toString()
+		{
+			return "{"
+			. "\"id\" : \"$this->id\","
+			. "\"name\" : \"$this->name\""
+			. "}";
 		}
 	}
 ?>

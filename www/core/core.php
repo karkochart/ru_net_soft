@@ -1,13 +1,12 @@
 <?php
-
-// Загрузка классов "на лету"
+/// Загрузка классов "на лету"
 function __autoload($className)
 {
-    $filename = strtolower($className) . '.php';
-
     // определяем класс и находим для него путь
     preg_match_all('/((?:^|[A-Z])[a-z]+)/', $className, $matches);
     $expArr = $matches[0];
+    $expArr[0] = strtolower($expArr[0]);
+    $filename = implode($expArr) . '.php';
 
     $folder = 'application';
     if (!empty($expArr[0] && $expArr[0] == 'base')) {
@@ -21,6 +20,10 @@ function __autoload($className)
                 $folder = 'models';
                 break;
 
+            case 'repository':
+                $folder = 'models' . DS . 'repositories';
+                break;
+
             default:
                 $folder = 'application';
                 break;
@@ -28,6 +31,7 @@ function __autoload($className)
     }
     // путь до класса
     $file = SITE_PATH . $folder . DS . $filename;
+    echo "\n" . $file . "\n";
     // проверяем наличие файла
     if (file_exists($file) == false) {
         return false;

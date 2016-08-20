@@ -1,6 +1,6 @@
 <?php
 
-class UserModel extends BaseModel
+class userModel extends baseModel
 {
     private $id;
     private $name;
@@ -11,7 +11,7 @@ class UserModel extends BaseModel
         if (is_array($data)) {
             if (isset($data['id'])) $this->id = $data['id'];
             $this->name = $data['name'];
-            $this->qualificationId = $data['qualification_id'];
+            $this->qualificationId = $data['qualificationId'];
         }
     }
 
@@ -61,6 +61,15 @@ class UserModel extends BaseModel
     public function setQualificationId($qualificationId)
     {
         $this->qualificationId = $qualificationId;
+    }
+
+    public function __toString()
+    {
+        return "{"
+        . "\"id\" : \"$this->id\","
+        . "\"name\" : \"$this->name\","
+        . "\"qualificationId\" : \"$this->qualificationId\""
+        . "}";
     }
 
 }
