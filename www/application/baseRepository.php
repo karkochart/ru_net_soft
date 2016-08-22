@@ -21,7 +21,6 @@ abstract class baseRepository
             );
         }
         $this->modelClass = str_replace('Repository', 'Model', static::class);
-        echo $this->modelClass;
     }
 
     /**
@@ -38,4 +37,15 @@ abstract class baseRepository
 
     abstract public function delete(array $primaryKeys);
 
+    public function findAllJson()
+    {
+        $array = $this->findAll();
+        $result = '[';
+        foreach ($array as $k => $obj) {
+            $result .= $obj . ', ';
+        }
+        $result = substr($result, 0, strlen($result) - 2);
+        $result .= ']';
+        return $result;
+    }
 }

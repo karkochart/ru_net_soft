@@ -2,23 +2,23 @@
 
 class cityRepository extends baseRepository
 {
-    private $tableName = 'cities';
-    private $columnId = 'id';
-    private $columnName = 'name';
+    private $tName = 'cities';
+    private $cId = 'id';
+    private $cName = 'name';
 
     public function find(array $primaryKeys)
     {
-        if (!isset($primaryKeys[$this->columnId])) {
+        if (!isset($primaryKeys[$this->cId])) {
             throw new \InvalidArgumentException(
                 'InvalidArgumentException: Please set city id.'
             );
         }
         $stmt = $this->connection->prepare("
-            SELECT \"$this->modelClass \", $this->tableName.*
-             FROM $this->tableName 
-             WHERE $this->columnId = :$this->columnId
+            SELECT \"$this->modelClass \", $this->tName.*
+             FROM $this->tName 
+             WHERE $this->cId = :$this->cId
         ");
-        $stmt->bindParam(':' . $this->columnId, $primaryKeys[$this->columnId]);
+        $stmt->bindParam(':' . $this->cId, $primaryKeys[$this->cId]);
         $stmt->execute();
 
         $stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClass);
@@ -28,7 +28,7 @@ class cityRepository extends baseRepository
     public function findAll()
     {
         $stmt = $this->connection->prepare("
-            SELECT * FROM $this->tableName
+            SELECT * FROM $this->tName
         ");
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $this->modelClass);
@@ -40,7 +40,7 @@ class cityRepository extends baseRepository
     {
         //Update City if exists
         if (!empty($city->getId())) {
-            $findCity = $this->find(array($this->columnId => $city->getId()));
+            $findCity = $this->find(array($this->cId => $city->getId()));
             if (is_object($findCity) && $findCity->getId() == $city->getId()) {
                 return $this->update($city);
             }
@@ -48,18 +48,18 @@ class cityRepository extends baseRepository
         //Add new City
         $stmt = $this->connection->prepare("
             INSERT INTO cities 
-                ($this->columnName) 
+                ($this->cName) 
             VALUES 
-                (:$this->columnName)
+                (:$this->cName)
         ");
         $name = $city->getName();
-        $stmt->bindParam(':' . $this->columnName, $name);
+        $stmt->bindParam(':' . $this->cName, $name);
         return $stmt->execute();
     }
 
     public function update(\baseModel $city)
     {
-        if (!is_object($this->find(array($this->columnId => $city->getId())))) {
+        if (!is_object($this->find(array($this->cId => $city->getId())))) {
             throw new \InvalidArgumentException(
                 'InvalidArgumentException: Cannot UPDATE ' . $city . ' that does not yet exist in the database.'
             );
@@ -67,33 +67,33 @@ class cityRepository extends baseRepository
 
         $stmt = $this->connection->prepare("
             UPDATE cities
-            SET $this->columnName = :$this->columnName
-            WHERE $this->columnId = :$this->columnId
+            SET $this->cName = :$this->cName
+            WHERE $this->cId = :$this->cId
         ");
         $id = $city->getId();
         $name = $city->getName();
-        $stmt->bindParam(':' . $this->columnId, $id);
-        $stmt->bindParam(':' . $this->columnName, $name);
+        $stmt->bindParam(':' . $this->cId, $id);
+        $stmt->bindParam(':' . $this->cName, $name);
         return $stmt->execute();
     }
 
     public function delete(array $primaryKeys)
     {
-        if (!isset($primaryKeys[$this->columnId])) {
+        if (!isset($primaryKeys[$this->cId])) {
             throw new \InvalidArgumentException(
                 "InvalidArgumentException: Please set city id."
             );
         }
-        if (!is_object($this->find(array($this->columnId => $primaryKeys[$this->columnId])))) {
+        if (!is_object($this->find(array($this->cId => $primaryKeys[$this->cId])))) {
             throw new \InvalidArgumentException(
                 'InvalidArgumentException: Cannot DELETE city that does not yet exist in the database.'
             );
         }
         $stmt = $this->connection->prepare("
             DELETE FROM cities
-             WHERE $this->columnId = :$this->columnId
+             WHERE $this->cId = :$this->cId
         ");
-        $stmt->bindParam(':' . $this->columnId, $primaryKeys[$this->columnId]);
+        $stmt->bindParam(':' . $this->cId, $primaryKeys[$this->cId]);
         return $stmt->execute();
     }
 }
